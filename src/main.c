@@ -1,13 +1,15 @@
 #include "../opengl/GL_backend.h"
 
-#include <stdio.h>
-
 int main() {
     if (!GL_backend_init()) {
         return -1;
     }
 
-    printf("hello quincy code\n");
+    // test run
+    run();
+
+    // shutdown the opengl
+    GL_backend_shutdown();
 
     return 0;
 }
