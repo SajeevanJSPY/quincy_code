@@ -1,4 +1,5 @@
 output
 compile_commands.json
 .cache
+legacy
 
