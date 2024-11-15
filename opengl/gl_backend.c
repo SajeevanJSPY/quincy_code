@@ -5,10 +5,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-static void *window_context;
+// window management
+void *window_context;
 
 bool GL_backend_init() {
-	// window creation
 	if (!GL_window_create(&window_context)) {
 		return false;
 	}
@@ -38,6 +38,10 @@ bool GL_backend_init() {
 }
 
 void GL_render_loop() {
+	if (!window_context) {
+		printf("what\n");
+	}
+	GL_window_loop(window_context);
 }
 
 void GL_backend_shutdown() {

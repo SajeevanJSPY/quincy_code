@@ -10,18 +10,21 @@
 
 #include <unistd.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 typedef struct {
 	Display *display;
 	Window window;
+	GLXContext glx_context;
 } window_context;
 
 GLXContext create_glx_context(Display *display, Window window);
 Window create_window(Display *display, int width, int height);
 
-bool GL_window_create(void *win_context) {
-	win_context = malloc(sizeof(window_context));
-    window_context *context = (window_context *)win_context;
+bool GL_window_create(void **win_context) {
+	*win_context = malloc(sizeof(window_context));
+
+    window_context *context = (window_context *)*win_context;
     context->display = XOpenDisplay(NULL);
     if (!context->display) {
         return -1;
@@ -32,10 +35,46 @@ bool GL_window_create(void *win_context) {
     context->window = create_window(context->display, width, height);
 
     // create the opengl context
-    GLXContext glx_context = create_glx_context(context->display, context->window);
-    glXMakeCurrent(context->display, context->window, glx_context);
+    context->glx_context = create_glx_context(context->display, context->window);
+    glXMakeCurrent(context->display, context->window, context->glx_context);
 
 	return true;
+}
+
+// main render loop
+void GL_window_loop(void *win_context) {
+    window_context *context = (window_context *)win_context;
+	if (!context) {
+		printf("failed to get the window context\n");
+		return;
+	}
+    XEvent event;
+
+    while (1) {
+        while (XPending(context->display)) {
+            XNextEvent(context->display, &event);
+            if (event.type == Expose) {
+                XWindowAttributes gwa;
+                XGetWindowAttributes(context->display, context->window, &gwa);
+                glViewport(0, 0, gwa.width, gwa.height);
+            }
+
+            if (event.type == KeyPress) {
+                // Exit on any key press
+                glXMakeCurrent(context->display, None, NULL);
+                glXDestroyContext(context->display, context->glx_context);
+                XDestroyWindow(context->display, context->window);
+                XCloseDisplay(context->display);
+                return;
+            }
+        }
+
+        // opengl rendering code
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glXSwapBuffers(context->display, context->window);
+        usleep(16000);
+    }
+
 }
 
 void GL_window_destroy(void *context) {

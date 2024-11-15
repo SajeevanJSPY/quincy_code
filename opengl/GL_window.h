@@ -3,7 +3,8 @@
 
 #include "GL_defines.h"
 
-bool GL_window_create(void *context);
+bool GL_window_create(void **context);
+void GL_window_loop(void *context);
 void GL_window_destroy(void *context);
 
 #endif // __GL_WINDOW_H
