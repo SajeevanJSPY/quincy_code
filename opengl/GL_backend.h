@@ -10,7 +10,4 @@ GL_API bool GL_backend_init();
 GL_API void GL_render_loop();
 GL_API void GL_backend_shutdown();
 
-// testing
-GL_API int run();
-
 #endif // __GL_BACKEND_H
