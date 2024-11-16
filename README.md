@@ -2,6 +2,8 @@
 
 ## Quick start
 ```
+    chmod +x scripts/setup.h
+    ./scripts/setup.h
     make
 ```
 

@@ -1,0 +1,13 @@
+#/bin/bash
+
+echo "Running pre-commit hook..."
+
+FILES=$(git diff --cached --name-only --diff-filter=ACM | grep '\.[c, h]$')
+if [ -n "$FILES" ]; then
+  echo "Running clang-format on staged C files..."
+  echo "$FILES" | xargs clang-format -i
+  git add $FILES
+fi
+
+echo "Pre-commit checks passed."
+
