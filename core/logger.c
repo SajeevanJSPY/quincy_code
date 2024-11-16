@@ -81,7 +81,7 @@ void log_message(log_level level, const char *fmt, ...) {
 }
 
 void log_message_info(const char *fmt, ...) {
-	log_level level = LOG_INFO;
+    log_level level = LOG_INFO;
     const char *color = log_to_color(level);
 
     // console logging
@@ -91,7 +91,6 @@ void log_message_info(const char *fmt, ...) {
     vprintf(fmt, args);
     va_end(args);
     printf("%s\n", RESET_COLOR);
-
 }
 
 const char *log_to_color(log_level level) {
