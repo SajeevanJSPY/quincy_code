@@ -1,8 +1,8 @@
-#include "core/io.h"
+#include "core/CORE_io.h"
 
 #include <stdlib.h>
 
-char *read_file(const char *filename, size_t *size) {
+char *CORE_io_file_read(const char *filename, size_t *size) {
     FILE *file = fopen(filename, "r");
 
     if (!file) {
