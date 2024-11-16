@@ -1,8 +1,6 @@
 #include "../opengl/GL_backend.h"
 #include <core/CORE_logger.h>
 
-#include <stdio.h>
-
 /*
         Application Subsystem
                 make sure every subsystem must initialized in a certain order
@@ -14,15 +12,19 @@
 */
 
 int main() {
-    CORE_logger_init(LOG_ERROR, NULL);
+    CORE_logger_init(LOG_FATAL, "output/log");
+    LOG_TRACE("Init: Application");
 
+    LOG_TRACE("Init: Renderer Backend");
     if (!GL_backend_init()) {
+        LOG_FATAL("Renderer Backend");
         return -1;
     }
 
+    LOG_TRACE("Init: Renderer Loop");
     GL_render_loop();
 
-    // shutdown the opengl
+    LOG_TRACE("Shutdown: Renderer Backend");
     GL_backend_shutdown();
 
     CORE_logger_shutdown();

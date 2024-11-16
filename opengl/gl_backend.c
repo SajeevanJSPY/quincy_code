@@ -2,48 +2,55 @@
 #include "GL_shader.h"
 #include "GL_window.h"
 
-#include <stdio.h>
 #include <stdlib.h>
 
 // window management
 void *window_context;
+shader *shader_info;
 
 bool GL_backend_init() {
-	if (!GL_window_create(&window_context)) {
-		return false;
-	}
+    LOG_TRACE("Init: Window");
+    if (!GL_window_create(&window_context)) {
+        LOG_ERROR("failed to create window");
+        return false;
+    }
 
-	// initializing the opengl graphics api
-	int version = gladLoadGL();
-	if (version < 1) {
-		printf("failed to load the glad opengl apis");
-		return false;
-	}
+    // initializing the opengl graphics api
+    if (gladLoadGL() < 1) {
+        LOG_ERROR("failed to load the glad opengl function pointers");
+        return false;
+    }
 
-	shader *shader;
-	shader = malloc(sizeof(*shader));
-	if (!shader) {
-		printf("memory allocation failed'\n");
-		return false;
-	}
-	shader->vertex_shader_path = "shaders/simple.vert";
-	shader->frag_shader_path = "shaders/simple.frag";
-	// simple triangle program
-	if (!shader_program_init(shader)) {
-		printf("shader program init failed\n");
-		return false;
-	}
+    shader_info = malloc(sizeof(shader));
+    if (!shader_info) {
+        LOG_ERROR("memory allocation failed");
+        return false;
+    }
+    shader_info->vertex_shader_path = "shaders/simple.vert";
+    shader_info->frag_shader_path = "shaders/simple.frag";
 
-	return true;
+    // simple triangle program
+    LOG_TRACE("Init: Shader Program");
+    if (!shader_program_init(shader_info)) {
+        LOG_ERROR("shader program init failed");
+        return false;
+    }
+
+    return true;
+}
+
+void loop() {
+    glClear(GL_COLOR_BUFFER_BIT);
+    glClearColor(0.1f, 0.2f, 0.6f, 0.2f);
+
+    glBindVertexArray(shader_info->VAO);
+    glDrawArrays(GL_TRIANGLES, 0, 3);
 }
 
 void GL_render_loop() {
-	if (!window_context) {
-		printf("what\n");
-	}
-	GL_window_loop(window_context);
+    void (*loop_ptr)() = &loop;
+
+    GL_window_loop(window_context, loop_ptr);
 }
 
-void GL_backend_shutdown() {
-
-}
+void GL_backend_shutdown() {}

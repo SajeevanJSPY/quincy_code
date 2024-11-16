@@ -3,6 +3,9 @@
 
 /// This header file contains about the general imports and other stuffs...
 
+#define GL_API
+
+#include <core/CORE_logger.h>
 #include <glad/glad.h>
 
 // boolean
