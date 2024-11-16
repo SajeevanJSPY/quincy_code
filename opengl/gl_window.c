@@ -1,4 +1,4 @@
-#include "GL_window.h"
+#include "opengl/GL_window.h"
 
 // X11 window system
 #include <X11/X.h>

@@ -1,6 +1,6 @@
-#include "GL_backend.h"
-#include "GL_shader.h"
-#include "GL_window.h"
+#include "opengl/GL_backend.h"
+#include "opengl/GL_shader.h"
+#include "opengl/GL_window.h"
 
 #include <stdlib.h>
 

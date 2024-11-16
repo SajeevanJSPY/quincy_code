@@ -3,7 +3,7 @@
 GL_LIBS := -lGL
 X11_LIBS := -lX11
 RENDERER_DLL := -L ./output -lgl_renderer -lcore
-INCLUDE := -Iexternal/include -Icore
+INCLUDE := -Iexternal/include -Icore -Iopengl
 
 run: build output/main
 	@LD_LIBRARY_PATH=./output:$(LD_LIBRARY_PATH) ./output/main

@@ -1,4 +1,4 @@
-#include "GL_shader.h"
+#include "opengl/GL_shader.h"
 #include <core/CORE_io.h>
 
 #include <stdio.h>
