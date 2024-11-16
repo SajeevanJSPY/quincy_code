@@ -23,6 +23,7 @@ CORE_API bool CORE_logger_set_logfile(const char *filename);
 
 
 void log_message(log_level level, const char *fmt, ...);
+void log_message_info(const char *fmt, ...);
 
 // log macros for different log levels
 #define LOG_TRACE(fmt, ...) log_message(LOG_TRACE, fmt, ##__VA_ARGS__)
@@ -31,7 +32,7 @@ void log_message(log_level level, const char *fmt, ...);
 #define LOG_WARN(fmt, ...) log_message(LOG_WARN, fmt, ##__VA_ARGS__)
 #define LOG_ERROR(fmt, ...) log_message(LOG_ERROR, fmt, ##__VA_ARGS__)
 #define LOG_FATAL(fmt, ...) log_message(LOG_FATAL, fmt, ##__VA_ARGS__)
-
+#define INFO(fmt, ...) log_message_info(fmt, ##__VA_ARGS__)
 
 
 #endif // __CORE__LOGGER_H

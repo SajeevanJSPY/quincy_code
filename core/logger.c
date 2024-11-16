@@ -80,6 +80,20 @@ void log_message(log_level level, const char *fmt, ...) {
     }
 }
 
+void log_message_info(const char *fmt, ...) {
+	log_level level = LOG_INFO;
+    const char *color = log_to_color(level);
+
+    // console logging
+    printf("\n\t%s", color);
+    va_list args;
+    va_start(args, fmt);
+    vprintf(fmt, args);
+    va_end(args);
+    printf("%s\n", RESET_COLOR);
+
+}
+
 const char *log_to_color(log_level level) {
     switch (level) {
     case LOG_TRACE:
